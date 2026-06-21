@@ -55,7 +55,7 @@ function Footer() {
             <Link href="https://facebook.com" target="_blank">
               <Facebook className="w-5 h-5 hover:text-white transition" />
             </Link>
-            <Link href="https://instagram.com" target="_blank">
+            <Link href="https://www.instagram.com/_pattanaik_07?igsh=MWozbHFlZmNhNnNlZg==" target="_blank">
               <Instagram className="w-5 h-5 hover:text-white transition" />
             </Link>
             <Link href="https://twitter.com" target="_blank">
@@ -75,7 +75,7 @@ function Footer() {
           <div className="flex items-center gap-2 text-xs sm:text-sm text-green-200">
             <span>Developed with ❤️ by</span>
             <Link 
-              href="https://linkedin.com" // 💡 Change this string to your real LinkedIn profile URL
+              href="https://www.linkedin.com/in/biswajit-pattanaik-3586b82b3" // 💡 Change this string to your real LinkedIn profile URL
               target="_blank" 
               className="group flex items-center gap-1.5 font-bold text-white tracking-wide hover:text-lime-300 transition duration-200"
             >
