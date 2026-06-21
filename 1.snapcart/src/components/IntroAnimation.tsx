@@ -54,15 +54,31 @@ export default function IntroAnimation({ children }: { children: React.ReactNode
         <div className={`intro-overlay ${fadeOut ? "intro-fade-out" : ""}`} aria-hidden="true">
           <div className="intro-bg" />
           <div className="intro-glow" />
+          <div className="intro-particles">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span key={i} className={`intro-particle intro-particle-${i}`} />
+            ))}
+          </div>
           <div className="intro-content">
             {/* @ts-expect-error custom element not typed */}
             <dotlottie-wc
               ref={playerRef}
               src={LOTTIE_SRC}
               autoplay
+              className="intro-lottie"
               style={{ width: "220px", height: "220px" }}
             />
-            <h1 className="intro-text">SnapCart</h1>
+            <h1 className="intro-text">
+              {"SnapCart".split("").map((char, idx) => (
+                <span
+                  key={idx}
+                  className="intro-letter"
+                  style={{ animationDelay: `${0.35 + idx * 0.06}s` }}
+                >
+                  {char}
+                </span>
+              ))}
+            </h1>
             <div className="intro-tagline">Groceries in minutes</div>
           </div>
         </div>
@@ -109,15 +125,25 @@ export default function IntroAnimation({ children }: { children: React.ReactNode
           align-items: center;
           gap: 6px;
         }
+        .intro-lottie {
+          opacity: 0;
+          transform: scale(0.6);
+          animation: introLottieIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards;
+        }
         .intro-text {
+          display: flex;
           font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
           font-weight: 700;
           font-size: clamp(2.2rem, 7vw, 3.6rem);
           letter-spacing: 0.01em;
           color: #ffffff;
           margin: 0;
+        }
+        .intro-letter {
+          display: inline-block;
           opacity: 0;
-          animation: introTextIn 0.6s ease 0.3s forwards;
+          transform: translateY(24px) scale(0.6);
+          animation: introLetterBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .intro-tagline {
           opacity: 0;
@@ -126,8 +152,31 @@ export default function IntroAnimation({ children }: { children: React.ReactNode
           font-size: 0.95rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          animation: introTextIn 0.6s ease 0.5s forwards;
+          animation: introTextIn 0.6s ease 1s forwards;
         }
+        .intro-particles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .intro-particle {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.55);
+          animation: introFloat 4s ease-in-out infinite;
+        }
+        .intro-particle-0 { top: 15%; left: 20%; animation-delay: 0s; }
+        .intro-particle-1 { top: 70%; left: 15%; animation-delay: 0.4s; }
+        .intro-particle-2 { top: 25%; left: 80%; animation-delay: 0.8s; }
+        .intro-particle-3 { top: 80%; left: 75%; animation-delay: 1.2s; }
+        .intro-particle-4 { top: 10%; left: 50%; animation-delay: 1.6s; }
+        .intro-particle-5 { top: 85%; left: 45%; animation-delay: 2s; }
+        .intro-particle-6 { top: 50%; left: 8%; animation-delay: 0.6s; }
+        .intro-particle-7 { top: 45%; left: 92%; animation-delay: 1s; }
+        .intro-particle-8 { top: 30%; left: 35%; animation-delay: 1.8s; }
+        .intro-particle-9 { top: 65%; left: 60%; animation-delay: 2.4s; }
 
         @keyframes introGradient {
           0% { background-position: 0% 50%; }
@@ -141,13 +190,25 @@ export default function IntroAnimation({ children }: { children: React.ReactNode
         @keyframes introTextIn {
           to { opacity: 1; }
         }
+        @keyframes introLottieIn {
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes introLetterBounce {
+          60% { opacity: 1; transform: translateY(-4px) scale(1.05); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes introFloat {
+          0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+          50% { transform: translateY(-18px) scale(1.3); opacity: 0.9; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
-          .intro-bg, .intro-text, .intro-tagline {
+          .intro-bg, .intro-text, .intro-letter, .intro-tagline, .intro-lottie {
             animation: none !important;
             opacity: 1 !important;
+            transform: none !important;
           }
-          .intro-glow {
+          .intro-glow, .intro-particle {
             animation: none !important;
             opacity: 0 !important;
           }
