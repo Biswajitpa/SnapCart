@@ -11,18 +11,20 @@ import Grocery, { IGrocery } from '@/models/grocery.model'
 import User from '@/models/user.model'
 import { redirect } from 'next/navigation'
 
-async function Home(props: {
-  searchParams: Promise<{ q: string }>
-}) {
-  const searchParams = await props.searchParams
+interface PageProps {
+  searchParams: Promise<{ q?: string }>
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  // 🎯 1. Correctly await the dynamic async search params for Next.js 16
+  const resolvedParams = await searchParams;
+  const searchQuery = resolvedParams?.q || "";
 
   await connectDb()
   const session = await auth()
   if (!session || !session.user) redirect("/login")
 
-  console.log("Active Session User:", session.user)
-
-  // 🎯 FIX: Pull fallback options safely so it never searches with 'undefined'
+  // 🎯 2. Safely grab the id using fallback options
   const userId = session.user.id || (session.user as any)._id;
   if (!userId) redirect("/login")
 
@@ -38,11 +40,12 @@ async function Home(props: {
   let groceryList: IGrocery[] = []
 
   if (user.role === "user") {
-    if (searchParams.q) {
+    // 🎯 3. Clean search evaluation using your query string
+    if (searchQuery.trim() !== "") {
       groceryList = await Grocery.find({
         $or: [
-          { name: { $regex: searchParams.q, $options: "i" } },
-          { category: { $regex: searchParams.q, $options: "i" } },
+          { name: { $regex: searchQuery, $options: "i" } },
+          { category: { $regex: searchQuery, $options: "i" } },
         ]
       })
     } else {
@@ -54,14 +57,12 @@ async function Home(props: {
     <>
       <Nav user={plainUser} />
       <GeoUpdater userId={plainUser._id} />
-      {user.role == "user" ? (
+      {user.role === "user" ? (
         <UserDashboard groceryList={JSON.parse(JSON.stringify(groceryList))} />
-      ) : user.role == "admin" ? (
+      ) : user.role === "admin" ? (
         <AdminDashboard />
       ) : <DeliveryBoy />}
       <Footer />
     </>
   )
 }
-
-export default Home
