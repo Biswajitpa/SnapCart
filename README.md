@@ -13,7 +13,7 @@ A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting C
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/juua9i2c2fA0AIp2iq/giphy.gif" width="120">
+  <img src="https://readme-typing-svg.demolab.com?font=Poppins&weight=700&size=24&pause=1000&color=22C55E&center=true&vCenter=true&width=700&lines=🛒+Smart+Online+Shopping;🚚+Real-Time+Delivery+Tracking;💳+Secure+Online+Payments;🏪+Multi-Vendor+Marketplace;⚡+Built+with+Next.js+%7C+Node.js+%7C+MongoDB" />
 </p>
 
 
