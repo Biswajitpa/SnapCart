@@ -8,6 +8,16 @@ Built with Next.js • React.js • Node.js • Express.js • MongoDB Atlas •
 
 A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting Customers, Vendors, Administrators, and Delivery Partners Through Real-Time Order Processing, Intelligent Logistics Management, and Cloud-Native Architecture.
 
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Architecture-Scalable-blue?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Deployment-Vercel-black?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Database-MongoDB-green?style=for-the-badge"/>
+
+</div>
+
 ## 1. Introduction
 
 SnapCart is a cloud-based, production-ready multi-vendor e-commerce platform designed to provide a complete digital marketplace solution for customers, vendors, administrators, and delivery partners. The platform enables customers to purchase products online, vendors to manage their inventory and sales, administrators to monitor the entire system, and delivery partners to handle logistics and order fulfillment efficiently.
