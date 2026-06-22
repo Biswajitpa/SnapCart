@@ -7,6 +7,7 @@ Production-Grade Multi-Vendor E-Commerce, Logistics & Real-Time Delivery Managem
 Built with Next.js • React.js • Node.js • Express.js • MongoDB Atlas • TypeScript • Redux Toolkit • Razorpay • Leaflet Maps • Cloud Deployment
 
 A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting Customers, Vendors, Administrators, and Delivery Partners Through Real-Time Order Processing, Intelligent Logistics Management, and Cloud-Native Architecture.
+
 ## 1. Introduction
 
 SnapCart is a cloud-based, production-ready multi-vendor e-commerce platform designed to provide a complete digital marketplace solution for customers, vendors, administrators, and delivery partners. The platform enables customers to purchase products online, vendors to manage their inventory and sales, administrators to monitor the entire system, and delivery partners to handle logistics and order fulfillment efficiently.
