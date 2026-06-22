@@ -8,6 +8,18 @@ Built with Next.js • React.js • Node.js • Express.js • MongoDB Atlas •
 
 A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting Customers, Vendors, Administrators, and Delivery Partners Through Real-Time Order Processing, Intelligent Logistics Management, and Cloud-Native Architecture.
 
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+
+<dotlottie-wc
+    src="https://lottie.host/ee859614-7143-4249-8b59-0363e5d98110/ylSpzB7OYw.lottie"
+    style="width:40px;height:40px;display:inline-block;vertical-align:middle"
+    autoplay
+    loop>
+</dotlottie-wc>
+
+<span style="font-size:24px;font-weight:bold;color:#22c55e;">
+    SnapCart
+</span>
 
 
 <div align="center">
