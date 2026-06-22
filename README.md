@@ -11,8 +11,6 @@ A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting C
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Poppins&weight=700&size=35&pause=1000&color=00C2FF&center=true&vCenter=true&width=1000&lines=🚀+SnapCart;Production-Grade+Multi-Vendor+E-Commerce+Platform;Real-Time+Order+Tracking+%26+Delivery+Management;Built+with+Next.js+%7C+Node.js+%7C+MongoDB;FAANG-Level+Full-Stack+Project" alt="Typing SVG" />
-
 <br><br>
 
 <img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge"/>
