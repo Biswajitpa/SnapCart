@@ -8,6 +8,75 @@ Built with Next.js • React.js • Node.js • Express.js • MongoDB Atlas •
 
 A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting Customers, Vendors, Administrators, and Delivery Partners Through Real-Time Order Processing, Intelligent Logistics Management, and Cloud-Native Architecture.
 
+body{
+    margin:0;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:'Poppins',sans-serif;
+}
+
+.banner{
+    text-align:center;
+}
+
+.snapcart{
+    font-size:80px;
+    font-weight:800;
+    color:#22c55e;
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:4px solid #22c55e;
+    width:0;
+    animation:
+        typing 3s steps(8,end) forwards,
+        blink .8s infinite,
+        glow 2s ease-in-out infinite alternate;
+}
+
+.banner p{
+    color:white;
+    font-size:22px;
+    margin-top:20px;
+    opacity:0;
+    animation:fadeIn 1s ease forwards;
+    animation-delay:3s;
+}
+
+@keyframes typing{
+    from{width:0}
+    to{width:350px}
+}
+
+@keyframes blink{
+    50%{border-color:transparent}
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px #22c55e;
+    }
+    to{
+        text-shadow:
+        0 0 20px #22c55e,
+        0 0 40px #22c55e,
+        0 0 60px #22c55e;
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
 
 <div align="center">
 
