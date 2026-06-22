@@ -11,9 +11,8 @@ A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting C
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:FACC15,100:22C55E&height=220&section=header&text=SnapCart&fontSize=60&fontColor=ffffff&animation=fadeIn"/>
 </p>
-
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Poppins&size=26&duration=2500&pause=1000&color=22C55E&center=true&width=800&lines=🛒+Groceries+Delivered+in+Minutes;🚚+Track+Orders+in+Real+Time;🏪+Connect+Customers+and+Vendors;💰+Secure+and+Fast+Checkout;⚡+Modern+E-Commerce+Experience" />
+  <img src="https://readme-typing-svg.demolab.com?font=Poppins&weight=700&size=25&pause=1000&color=22C55E&center=true&vCenter=true&width=900&lines=🛒+Multi-Vendor+Marketplace;🚚+Real-Time+Delivery+Tracking;💳+Secure+Payment+Gateway;🏪+Vendor+Management+Dashboard;📊+Admin+Analytics+%26+Reporting;⚡+Built+with+Next.js+%7C+Node.js+%7C+MongoDB" />
 </p>
 
 <div align="center">
