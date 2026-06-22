@@ -8,20 +8,13 @@ Built with Next.js • React.js • Node.js • Express.js • MongoDB Atlas •
 
 A Scalable, Secure, and Enterprise-Ready Digital Commerce Ecosystem Connecting Customers, Vendors, Administrators, and Delivery Partners Through Real-Time Order Processing, Intelligent Logistics Management, and Cloud-Native Architecture.
 
-<div align="center">
-  <img
-    src="https://capsule-render.vercel.app/api?type=waving&color=0:22C55E,100:0EA5E9&height=220&section=header&text=SnapCart&fontSize=55&fontColor=ffffff&animation=twinkling"
-    alt="banner"
-    width="100%"
-  />
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:22C55E,100:0EA5E9&height=220&section=header&text=SnapCart&fontSize=55&fontColor=ffffff&animation=twinkling&fontAlignY=38&desc=Production-Grade%20Multi-Vendor%20E-Commerce%20Platform&descAlignY=60&descSize=18"/>
+</p>
 
-  <dotlottie-wc
-    src="https://lottie.host/ee859614-7143-4249-8b59-0363e5d98110/ylSpzB7OYw.lottie"
-    style={{ width: "80px", height: "80px" }}
-    autoplay
-    loop
-  />
-</div>
+<p align="center">
+  <img src="https://media.giphy.com/media/juua9i2c2fA0AIp2iq/giphy.gif" width="120">
+</p>
 
 
 <div align="center">
