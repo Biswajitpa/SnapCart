@@ -561,3 +561,6 @@ Future enhancements include:
 SnapCart is a comprehensive production-grade e-commerce and delivery management platform that demonstrates advanced full-stack development skills, cloud deployment expertise, database design knowledge, secure authentication implementation, payment gateway integration, real-time tracking, and scalable software architecture.
 
 The project reflects real-world engineering practices used by leading technology companies and showcases the ability to design, develop, deploy, and maintain large-scale web applications capable of supporting modern digital commerce ecosystems.
+
+## AUthor
+Biswajit pattanaik
