@@ -562,5 +562,11 @@ SnapCart is a comprehensive production-grade e-commerce and delivery management 
 
 The project reflects real-world engineering practices used by leading technology companies and showcases the ability to design, develop, deploy, and maintain large-scale web applications capable of supporting modern digital commerce ecosystems.
 
-## AUthor
-Biswajit pattanaik
+### 👨‍💻 Author
+
+**Biswajit Pattanaik**
+
+Full-Stack Developer | UI/UX Designer | Backend Engineer | Frontend Developer | System Administrator | Deployment & DevOps Engineer
+
+Designed, developed, and deployed the complete application, including system architecture, user experience, frontend, backend, and production infrastructure.
+
