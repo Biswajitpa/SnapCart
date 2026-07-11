@@ -90,25 +90,18 @@ Traditional local retail businesses commonly face:
 
 SnapCart follows a **modern three-tier architecture**, keeping presentation, business logic, and data concerns cleanly separated for independent scalability and maintainability.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    PRESENTATION LAYER                     │
-│        Next.js · React.js · Tailwind CSS · Redux Toolkit  │
-│   UI Rendering · State Management · Client Validation      │
-└───────────────────────────┬─────────────────────────────┘
-                            │ REST API
-┌───────────────────────────▼─────────────────────────────┐
-│                    APPLICATION LAYER                       │
-│              Node.js · Express.js · JWT · REST APIs        │
-│  Authentication · Business Logic · Order Processing ·      │
-│  Payment Verification · Data Validation                    │
-└───────────────────────────┬─────────────────────────────┘
-                            │ Mongoose ODM
-┌───────────────────────────▼─────────────────────────────┐
-│                       DATA LAYER                            │
-│                MongoDB Atlas · Mongoose                     │
-│   Storage · Retrieval · Query Optimization · Data Security  │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    A["PRESENTATION LAYER<br/>Next.js · React.js · Tailwind CSS · Redux Toolkit<br/>UI Rendering · State Management · Client Validation"]
+    B["APPLICATION LAYER<br/>Node.js · Express.js · JWT · REST APIs<br/>Authentication · Business Logic · Order Processing ·<br/>Payment Verification · Data Validation"]
+    C[("DATA LAYER<br/>MongoDB Atlas · Mongoose<br/>Storage · Retrieval · Query Optimization · Data Security")]
+
+    A -->|REST API| B
+    B -->|Mongoose ODM| C
+
+    classDef layer fill:#0f172a,stroke:#f472b6,color:#e2e8f0
+
+    class A,B,C layer
 ```
 
 ### Architectural Principles
