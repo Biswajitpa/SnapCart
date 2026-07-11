@@ -126,40 +126,40 @@ This section captures SnapCart's **High-Level Design (HLD)** and **Low-Level Des
 
 ### 🔭 High-Level Design (HLD)
 
-```
-                              ┌───────────────────────────┐
-                              │        Client Apps          │
-                              │  Customer · Vendor · Rider   │
-                              │      · Admin Dashboards      │
-                              └──────────────┬───────────────┘
-                                             │ HTTPS
-                              ┌──────────────▼───────────────┐
-                              │        Next.js Frontend        │
-                              │  SSR Pages · Redux Store ·      │
-                              │  Axios API Client · Route Guards │
-                              └──────────────┬───────────────┘
-                                             │ REST (JWT-authenticated)
-                              ┌──────────────▼───────────────┐
-                              │        Express API Gateway      │
-                              │  Auth Middleware · RBAC ·        │
-                              │  Rate Limiting · Validation       │
-                              └──────┬────────┬────────┬───────┘
-                                     │        │        │
-                     ┌───────────────┘        │        └───────────────┐
-                     ▼                        ▼                        ▼
-           ┌──────────────────┐   ┌──────────────────────┐  ┌──────────────────────┐
-           │  Order Service     │   │  Payment Service        │  │  Delivery Service      │
-           │  Cart · Checkout ·  │   │  Razorpay Integration ·  │  │  Assignment Logic ·     │
-           │  Order State Machine│   │  Server-side Verification │  │  Live Location Updates   │
-           └─────────┬─────────┘   └───────────┬──────────────┘  └───────────┬────────────┘
-                     │                          │                             │
-                     └──────────────┬───────────┴──────────────┬─────────────┘
-                                    ▼                          ▼
-                         ┌──────────────────┐        ┌──────────────────────┐
-                         │  MongoDB Atlas      │        │  SMTP Notification      │
-                         │  Users · Products ·  │        │  Service (async email)   │
-                         │  Orders · Delivery     │        └──────────────────────┘
-                         └──────────────────┘
+```mermaid
+graph TB
+    A["Client Apps<br/>Customer · Vendor · Rider · Admin Dashboards"]
+    B["Next.js Frontend<br/>SSR Pages · Redux Store · Axios API Client · Route Guards"]
+    C["Express API Gateway<br/>Auth Middleware · RBAC · Rate Limiting · Validation"]
+    D["Order Service<br/>Cart · Checkout · Order State Machine"]
+    E["Payment Service<br/>Razorpay Integration · Server-Side Verification"]
+    F["Delivery Service<br/>Assignment Logic · Live Location Updates"]
+    G[("MongoDB Atlas<br/>Users · Products · Orders · Delivery")]
+    H["SMTP Notification Service<br/>Async Email"]
+
+    A -->|HTTPS| B
+    B -->|"REST (JWT-authenticated)"| C
+    C --> D
+    C --> E
+    C --> F
+    D --> G
+    E --> G
+    F --> G
+    D --> H
+    E --> H
+    F --> H
+
+    classDef client fill:#0f172a,stroke:#f472b6,color:#e2e8f0
+    classDef frontend fill:#0f172a,stroke:#f472b6,color:#e2e8f0
+    classDef gateway fill:#0f172a,stroke:#f472b6,color:#e2e8f0
+    classDef service fill:#0f172a,stroke:#818cf8,color:#e2e8f0
+    classDef data fill:#0f172a,stroke:#38bdf8,color:#e2e8f0
+
+    class A client
+    class B frontend
+    class C gateway
+    class D,E,F service
+    class G,H data
 ```
 
 **Key HLD decisions:**
