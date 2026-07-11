@@ -30,6 +30,7 @@
   <a href="#-executive-summary">Executive Summary</a> •
   <a href="#-problem-statement">Problem Statement</a> •
   <a href="#-system-architecture">Architecture</a> •
+  <a href="#-system-design">System Design</a> •
   <a href="#-role-based-modules">Modules</a> •
   <a href="#-order--delivery-lifecycle">Order Lifecycle</a> •
   <a href="#-security--authentication">Security</a> •
@@ -116,6 +117,109 @@ SnapCart follows a **modern three-tier architecture**, keeping presentation, bus
 - **Role-scoped API surface** — a single REST backend serves four distinct role-based frontends with enforced authorization boundaries
 - **Stateless authentication** — JWT tokens allow the application layer to scale horizontally without session affinity
 - **Geospatial-aware data flow** — delivery and tracking features are built around location data as a first-class concern, not an afterthought
+
+---
+
+## 🧩 System Design
+
+This section captures SnapCart's **High-Level Design (HLD)** and **Low-Level Design (LLD)** — how requests move through the system, how components are decomposed, and the design decisions behind key trade-offs.
+
+### 🔭 High-Level Design (HLD)
+
+```
+                              ┌───────────────────────────┐
+                              │        Client Apps          │
+                              │  Customer · Vendor · Rider   │
+                              │      · Admin Dashboards      │
+                              └──────────────┬───────────────┘
+                                             │ HTTPS
+                              ┌──────────────▼───────────────┐
+                              │        Next.js Frontend        │
+                              │  SSR Pages · Redux Store ·      │
+                              │  Axios API Client · Route Guards │
+                              └──────────────┬───────────────┘
+                                             │ REST (JWT-authenticated)
+                              ┌──────────────▼───────────────┐
+                              │        Express API Gateway      │
+                              │  Auth Middleware · RBAC ·        │
+                              │  Rate Limiting · Validation       │
+                              └──────┬────────┬────────┬───────┘
+                                     │        │        │
+                     ┌───────────────┘        │        └───────────────┐
+                     ▼                        ▼                        ▼
+           ┌──────────────────┐   ┌──────────────────────┐  ┌──────────────────────┐
+           │  Order Service     │   │  Payment Service        │  │  Delivery Service      │
+           │  Cart · Checkout ·  │   │  Razorpay Integration ·  │  │  Assignment Logic ·     │
+           │  Order State Machine│   │  Server-side Verification │  │  Live Location Updates   │
+           └─────────┬─────────┘   └───────────┬──────────────┘  └───────────┬────────────┘
+                     │                          │                             │
+                     └──────────────┬───────────┴──────────────┬─────────────┘
+                                    ▼                          ▼
+                         ┌──────────────────┐        ┌──────────────────────┐
+                         │  MongoDB Atlas      │        │  SMTP Notification      │
+                         │  Users · Products ·  │        │  Service (async email)   │
+                         │  Orders · Delivery     │        └──────────────────────┘
+                         └──────────────────┘
+```
+
+**Key HLD decisions:**
+
+| Decision | Rationale |
+|---|---|
+| Single REST gateway, multiple internal services | Keeps one authentication/authorization boundary while allowing order, payment, and delivery logic to evolve independently |
+| MongoDB (document store) over relational DB | Product catalogs and order payloads are naturally nested/variable-shaped (variants, pricing tiers, delivery metadata) |
+| JWT over server-side sessions | Enables stateless horizontal scaling of API instances behind Vercel's edge/CDN layer |
+| Async email via SMTP queuing pattern | Notification sending never blocks the critical order/payment request path |
+
+### 🔬 Low-Level Design (LLD)
+
+**Order state machine** — the core business logic is modeled as an explicit finite-state machine to prevent invalid transitions (e.g. a `Delivered` order can never move back to `Pending`):
+
+```
+Pending ──► Approved ──► Processing ──► Assigned ──► Out for Delivery ──► Delivered
+   │                                                                         ▲
+   └────────────────────────► Cancelled ◄─────────────────────────────────┘
+```
+
+**Delivery-partner assignment (concurrency-safe):**
+1. Order enters `Approved` state
+2. Assignment service queries available delivery partners filtered by proximity and active-load
+3. Atomic `findOneAndUpdate` (optimistic locking) claims the order for exactly one partner — preventing double-assignment under concurrent order approvals
+4. Partner's active-delivery count is incremented in the same transaction boundary
+
+**Request/response contract pattern:**
+- All API responses follow a consistent envelope: `{ success, data, error, meta }`
+- Validation happens at the middleware layer (before controller logic) using schema-based request validation
+- Errors are normalized through a centralized error-handling middleware so the frontend has one predictable error shape to consume
+
+**Module decomposition (backend):**
+
+```
+/controllers   → route handlers, thin orchestration only
+/services      → business logic (order lifecycle, payment verification, assignment)
+/models        → Mongoose schemas & data-layer contracts
+/middleware    → auth, RBAC, validation, error handling
+/utils         → shared helpers (JWT signing, bcrypt, geolocation math)
+```
+
+### 📡 Core Data Flow — Placing & Tracking an Order
+
+```
+Customer → Cart → Checkout → Razorpay Payment → Server-Side Verification
+   → Order Created (Pending) → Admin Approval → Delivery Assignment
+   → Live Location Streaming (Leaflet/OSM) → Delivery Confirmation → Order Closed
+```
+
+### 📈 Scalability & Design Trade-offs
+
+| Concern | Design Response |
+|---|---|
+| **Horizontal scaling** | Stateless JWT auth + Vercel serverless/edge deployment allows API instances to scale independently of session state |
+| **Read-heavy product browsing** | Indexed queries on frequently filtered fields (category, price, vendor) to keep catalog reads fast under load |
+| **Write contention on order assignment** | Atomic document updates instead of read-then-write, avoiding race conditions across concurrent admin/delivery actions |
+| **Real-time location updates** | Lightweight polling/interval-based geolocation push, chosen over a persistent WebSocket layer to keep initial infra simple and easy to scale on serverless hosting |
+| **Payment trust boundary** | All payment verification is re-validated server-side against Razorpay signatures — the client is never trusted for payment status |
+| **Future evolution path** | Service boundaries (Order / Payment / Delivery) are already logically separated, easing a future move to independently deployable microservices if traffic demands it |
 
 ---
 
