@@ -171,6 +171,86 @@ This section captures SnapCart's **High-Level Design (HLD)** and **Low-Level Des
 | JWT over server-side sessions | Enables stateless horizontal scaling of API instances behind Vercel's edge/CDN layer |
 | Async email via SMTP queuing pattern | Notification sending never blocks the critical order/payment request path |
 
+### 🗺️ Component & Service Diagram
+
+```mermaid
+graph TB
+    subgraph ClientApps["📱 Client Applications"]
+        A1["Customer App<br/>Next.js"]
+        A2["Vendor Dashboard<br/>Next.js"]
+        A3["Delivery Partner App<br/>Next.js"]
+        A4["Admin Dashboard<br/>Next.js"]
+    end
+
+    subgraph Gateway["🌐 API Gateway Layer"]
+        LB["Load Balancer"]
+        RL["Rate Limiter<br/>Auth · Validation · Routing"]
+    end
+
+    subgraph Core["⚙️ Core Services — Node.js / Express"]
+        AUTH["Auth Service<br/>JWT · bcrypt · RBAC"]
+        ORD["Order Service<br/>Cart · Checkout · State Machine"]
+        PAY["Payment Service<br/>Razorpay · Server-Side Verification"]
+        DEL["Delivery Orchestration Engine<br/>Assignment · Routing · Lifecycle"]
+        NOTIF["Notification Service<br/>Email · Order/Delivery Alerts"]
+    end
+
+    subgraph External["🔌 External Services"]
+        RZP["Razorpay<br/>Payment Gateway"]
+        SMTP["SMTP Provider<br/>Transactional Email"]
+        MAPS["Leaflet / OpenStreetMap<br/>Maps & Geolocation Provider"]
+    end
+
+    subgraph Data["🗄️ Data Layer"]
+        DB[("MongoDB Atlas<br/>Users · Products · Orders · Vendors")]
+        CACHE[("Cache Layer<br/>Live Delivery-Partner Locations")]
+    end
+
+    subgraph RealTime["📡 Real-Time Layer"]
+        WS["Location Update Channel<br/>Live GPS · Status Push"]
+    end
+
+    A1 -.-> LB
+    A2 -.-> LB
+    A3 -.-> LB
+    A4 -.-> LB
+    LB --> RL
+    RL --> AUTH
+    RL --> ORD
+    RL --> PAY
+    RL --> DEL
+    RL --> NOTIF
+
+    AUTH --> DB
+    ORD --> DB
+    PAY --> RZP
+    PAY --> DB
+    DEL --> DB
+    DEL --> CACHE
+    DEL --> MAPS
+    NOTIF --> SMTP
+
+    A1 -. "live location" .-> WS
+    A3 -. "live location" .-> WS
+    WS --> CACHE
+
+    classDef client fill:#0f172a,stroke:#38bdf8,color:#e2e8f0
+    classDef gateway fill:#1e293b,stroke:#38bdf8,color:#e2e8f0
+    classDef core fill:#2563eb,stroke:#93c5fd,color:#ffffff
+    classDef ext fill:#1e293b,stroke:#38bdf8,color:#e2e8f0
+    classDef data fill:#0c4a6e,stroke:#38bdf8,color:#e2e8f0
+    classDef rt fill:#1e3a8a,stroke:#60a5fa,color:#e2e8f0
+
+    class A1,A2,A3,A4 client
+    class LB,RL gateway
+    class AUTH,ORD,PAY,DEL,NOTIF core
+    class RZP,SMTP,MAPS ext
+    class DB,CACHE data
+    class WS rt
+```
+
+> Renders natively on GitHub (Mermaid support). Solid arrows = synchronous REST calls; dotted arrows = client-originated / streaming updates.
+
 ### 🔬 Low-Level Design (LLD)
 
 **Order state machine** — the core business logic is modeled as an explicit finite-state machine to prevent invalid transitions (e.g. a `Delivered` order can never move back to `Pending`):
